@@ -16,7 +16,7 @@ object MD2_Neo4J extends App {
   val driver = GraphDatabase.driver(uri, AuthTokens.basic(user, pw), noSSL)
   println("Opening Session")
  val session = driver.session
-  val importQuery = "LOAD CSV WITH HEADERS FROM 'file:///C:/Users/janap/DatuApstradesSistemas/src/resources/winemag.csv' AS rows " +
+  val importQuery = "LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jana-fed/DatuApstradesSistemas/master/src/resources/winemag.csv' AS rows " +
     "MERGE (winery:Winery {name: rows.winery}) " +
     "CREATE (province:Province {id: toInteger(rows.id), country: rows.country, province: rows.province}) " +
     "CREATE (description:Description {id: toInteger(rows.id), description: rows.description, points: toInteger(rows.points), variety: rows.variety}) " +
@@ -25,6 +25,7 @@ object MD2_Neo4J extends App {
     "CREATE (winery)-[:PRODUCES]->(description) " +
     "CREATE (winery)-[:PRICE]->(price)"
   val result = session.run(importQuery, parameters())
+
 
 
 
